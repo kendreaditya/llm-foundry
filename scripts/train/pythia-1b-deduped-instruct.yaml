@@ -107,8 +107,8 @@ callbacks:
   runtime_estimator: {}
   lr_monitor: {}
 
-# loggers:
-#   wandb: {}
+loggers:
+  wandb: {"project":"pythia"}
 
 # save_folder:
 # save_interval: 3ep
