@@ -368,3 +368,18 @@ def muennighoff_tokenize_function(inp: Dict):
         raise ValueError(
             f'Unable to process prompt/response from {inp=}') from e
     return {'prompt': prompt, 'response': response}
+
+@dataset_constructor.register('Open-Orca/OpenOrca')
+def openorca_preprocessing_function(inp: Dict):
+    """Format the text string."""
+    PROMPT_FORMAT = '### Instruction:\n{instruction}\n\n### Response:\n'
+    try:
+        if inp['system_prompt'] != '':
+            prompt = f'### System:\n{inp["system_prompt"]}' + PROMPT_FORMAT.format(instruction=inp['question'])
+        else:
+            prompt = PROMPT_FORMAT.format(instruction=inp['instruction'])
+        response = inp['output']
+    except Exception as e:
+        raise ValueError(
+            f'Unable to extract prompt/response from {inp=}') from e
+    return {'prompt': prompt, 'response': response}
